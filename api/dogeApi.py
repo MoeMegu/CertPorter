@@ -7,6 +7,7 @@ from urllib import parse
 from api.baseApi import API
 from hashlib import sha1
 
+
 class DogeApi(API):
     def __init__(self, url, access_key, secret_key):
         self.url = url
