@@ -1,5 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+"""
+Author  : Moe
+Time    : 2022/4/19 10:50
+Desc    : DogeCloud API的Python实现
+"""
 import json
 import hmac
 import requests

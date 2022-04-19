@@ -3,7 +3,7 @@
 # coding:utf-8
 """
 Author  : Moe
-Time    : ${DATE} ${TIME}
+Time    : 2022/4/19 12:20
 Desc    : julydate/acmeDeliver API的Python客户端实现
 """
 
