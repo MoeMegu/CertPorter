@@ -10,6 +10,11 @@ from abc import abstractmethod
 
 
 class API(ABC):
+    @abstractmethod
+    def __init__(self, url, id, secret):
+        self.url = url
+        self.id = id
+        self.secret = secret
 
     @abstractmethod
     def request(self, method, path, data):

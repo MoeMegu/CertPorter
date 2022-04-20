@@ -15,7 +15,7 @@ import requests
 
 
 class AcmeDeliverClient:
-    def __init__(self, host="https://0.0.0.0:9443", domain="", file="", passwd="passwd"):
+    def __init__(self, host="https://localhost:9443", domain="", file="", passwd="passwd"):
         self.host = host
         self.domain = domain
         self.file = file
@@ -41,4 +41,4 @@ class AcmeDeliverClient:
             "t": self.timestamp,
             "sign": self.sign,
             "checksum": self.checksum
-        })
+        }).content

@@ -1,0 +1,15 @@
+cert-list:
+ - { name: "default",source: acmeDeliver,pem: "cert.pem",key: "key.pem" }
+dogecloud:
+  access_id: "AccessKey"
+  secret_key: "SecretToken"
+  cert-domain:
+   - "default.moe": "default"
+   - "*.default.moe": "default"
+source:
+  local:
+    enabled: true
+  acmeDeliver:
+    host: "http://host:1919"
+    domain: "moedev.net"
+    passwd: "passwd"
