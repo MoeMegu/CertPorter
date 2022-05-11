@@ -45,8 +45,11 @@ class DogeApi(API):
     def getUserInfo(self):
         return self.request('GET', '/console/userinfo.json')
 
+    def uploadCert(self, data: dict):
+        return self.request("POST", "/cdn/cert/upload.json", data)
+
     def updateCert(self, domain_id, new_cert_id):
-        data: dict[str, Number] = {
+        data: dict[str, int] = {
             'id': domain_id,
             'cert_id': new_cert_id
         }
