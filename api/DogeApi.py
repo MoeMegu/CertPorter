@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 Author  : Moe
@@ -7,22 +6,21 @@ Desc    : DogeCloud API的Python实现
 """
 import hmac
 import json
-import sys
 from hashlib import sha1
+from numbers import Number
 from urllib import parse
 
 import requests
-from requests.exceptions import SSLError
 
 from api.BaseApi import API
-from main import logger
 
 
 class DogeApi(API):
-    def __init__(self, access_key, secret_key, url="https://api.dogecloud.com"):
+    def __init__(self, access_key, secret_key, url="https://api.dogecloud.com", proxies=None):
         self.access_key = access_key
         self.secret_key = secret_key
         self.url = url
+        self.proxies = proxies
 
     def request(self, method, path, data={}, json_mode=False):
         if json_mode:
@@ -35,16 +33,24 @@ class DogeApi(API):
         signed_data = hmac.new(self.secret_key.encode('utf-8'), sign_str.encode('utf-8'), sha1)
         sign = signed_data.digest().hex()
         authorization = 'TOKEN ' + self.access_key + ':' + sign
-        try:
-            with requests.request(method, self.url + path, data=body, headers={
-                'Authorization': authorization,
-                'Content-Type': mime
-            }) as response:
-                return response
-        except SSLError as e:
-            logger.debug(e)
-            logger.error("无法建立SSL连接, 请检查是否启用了网络代理")
-            sys.exit()
+        with requests.request(method, self.url + path, proxies=self.proxies, data=body, headers={
+            'Authorization': authorization,
+            'Content-Type': mime
+        }) as response:
+            return response
 
     def listDomain(self):
-        return self.request("get", "/cdn/domain/list.json")
+        return self.request("GET", "/cdn/domain/list.json")
+
+    def getUserInfo(self):
+        return self.request('GET', '/console/userinfo.json')
+
+    def updateCert(self, domain_id, new_cert_id):
+        data: dict[str, Number] = {
+            'id': domain_id,
+            'cert_id': new_cert_id
+        }
+        return self.request("POST", "/cdn/domain/config.json", data, True)
+
+    def deleteCert(self, cert_id):
+        return self.request('POST', '/cdn/cert/delete.json')
